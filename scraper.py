@@ -5,6 +5,7 @@ import re
 import sys
 import os
 from dotenv import load_dotenv
+from sheets import extract_sheet_rows, export_to_google_sheet
 
 load_dotenv()
 
@@ -119,6 +120,8 @@ if __name__ == "__main__":
 
     reviews  = fetch_all_reviews(gig_id)
     out_file = f"reviews_{gig_id}.json"
+    sheet_rows = extract_sheet_rows(reviews)
+    export_to_google_sheet(sheet_rows)
 
     with open(out_file, "w") as f:
         json.dump(reviews, f, indent=2)
