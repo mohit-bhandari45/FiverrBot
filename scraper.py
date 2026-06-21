@@ -1,13 +1,14 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import requests
 import json
 import time
 import re
 import sys
 import os
-from dotenv import load_dotenv
 from sheets import extract_sheet_rows, export_to_google_sheet
 
-load_dotenv()
 
 # ─────────────────────────────────────────────
 # LOAD FROM .env
