@@ -97,6 +97,7 @@ def fetch_all_reviews(gig_id):
 
         page += 1
         time.sleep(1.5)
+        break
 
     return all_reviews
 
