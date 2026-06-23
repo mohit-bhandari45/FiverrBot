@@ -1,14 +1,11 @@
 import os
 import gspread
 from gspread.exceptions import WorksheetNotFound
-# from ai_enrich import detect_website_from_image
 
 def extract_sheet_rows(reviews):
     """Extract username, work_sample, order_duration, value, price_range_start from reviews."""
     rows = []
     for review in reviews:
-        # work_sample = review.get("work_sample") or review.get("work_sample_preview_url") or ""
-        # detected_website = detect_website_from_image(work_sample) if work_sample else ""
 
         rows.append([
             review.get("username", ""),
@@ -16,7 +13,6 @@ def extract_sheet_rows(reviews):
             review.get("order_duration", ""),
             review.get("value", ""),
             review.get("price_range_start", ""),
-            # detected_website
         ])
 
     return rows
