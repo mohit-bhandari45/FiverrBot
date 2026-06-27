@@ -120,6 +120,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     reviews  = fetch_all_reviews(gig_id)
+    reviews.sort(key=lambda r: r["value"])
 
     # storing in a folder
     out_dir = "reviews"
