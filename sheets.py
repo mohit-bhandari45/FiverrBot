@@ -6,10 +6,13 @@ def extract_sheet_rows(reviews):
     """Extract username, work_sample, order_duration, value, price_range_start from reviews."""
     rows = []
     for review in reviews:
+        work_sample = review.get("work_sample") or review.get("work_sample_preview_url")
+        if not work_sample:
+            continue
 
         rows.append([
             review.get("username", ""),
-            review.get("work_sample") or review.get("work_sample_preview_url") or "",
+            work_sample,
             review.get("order_duration", ""),
             review.get("value", ""),
             review.get("price_range_start", ""),
@@ -17,15 +20,15 @@ def extract_sheet_rows(reviews):
 
     return rows
 
-def export_to_google_sheet(rows):
+def export_to_google_sheet(rows, gig_id):
     """Export extracted rows to Google Sheet."""
     if not rows:
         print("⚠️ No rows to export.")
         return False
 
     sheet_id = os.getenv("GOOGLE_SHEET_ID", "")
-    worksheet_name = os.getenv("GOOGLE_WORKSHEET_NAME", "Reviews")
     service_account_file = os.getenv("GOOGLE_SERVICE_ACCOUNT_FILE", "")
+    worksheet_name = f"Gig_Reviews_{gig_id}"
 
     if not sheet_id:
         print("⚠️ GOOGLE_SHEET_ID is not set.")

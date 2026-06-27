@@ -120,9 +120,14 @@ if __name__ == "__main__":
         sys.exit(1)
 
     reviews  = fetch_all_reviews(gig_id)
-    out_file = f"reviews_{gig_id}.json"
+
+    # storing in a folder
+    out_dir = "reviews"
+    os.makedirs(out_dir, exist_ok=True)
+    out_file = os.path.join(out_dir, f"reviews_{gig_id}.json")
+
     sheet_rows = extract_sheet_rows(reviews)
-    export_to_google_sheet(sheet_rows)
+    export_to_google_sheet(sheet_rows, gig_id)
 
     with open(out_file, "w") as f:
         json.dump(reviews, f, indent=2)
