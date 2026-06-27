@@ -89,7 +89,7 @@ def fetch_all_reviews(gig_id):
         last                = reviews[-1]
         last_star_rating_id = last["id"]
         last_review_id      = last["id"]
-        last_score          = last["score"]
+        last_score          = last.get("score", 0)
 
         if not data.get("has_next"):
             print("✅ No more pages.")
@@ -118,6 +118,27 @@ if __name__ == "__main__":
     if not gig_id:
         print("❌ Could not determine gig ID")
         sys.exit(1)
+
+    # storing gig
+    with open("processed_gigs.json", "r") as file:
+
+    FILE_NAME = "processed_gigs.json"
+    if not os.path.exists(FILE_NAME):
+        with open(FILE_NAME, "w") as file:
+            json.dump([], file)
+
+    with open(FILE_NAME, "r") as file:
+        gigs = set(json.load(file))
+
+    if gig_id in gigs:
+        print("Already processed")
+        sys.exit(0)
+    
+    print("New gig")
+    gigs.add(gig_id)
+    with open(FILE_NAME, "w") as file:
+        json.dump(list(gigs), file, indent=4)
+    # storing gig
 
     reviews  = fetch_all_reviews(gig_id)
     reviews.sort(key=lambda r: r["value"])
